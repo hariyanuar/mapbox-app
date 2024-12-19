@@ -27,35 +27,39 @@ class HomeView extends StackedView<HomeViewModel> {
               padding: const EdgeInsets.all(16.0),
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                              suffixIcon: Icon(Icons.search)),
-                          onChanged: viewModel.onSearchChanged,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0),
+                          child: TextField(
+                            decoration: const InputDecoration(
+                                suffixIcon: Icon(Icons.search),
+                                label: Text('Search for place')),
+                            onChanged: viewModel.onSearchChanged,
+                          ),
                         ),
                       ),
-                    ),
-                    viewModel.isBusy || viewModel.suggestion.isEmpty
-                        ? const SizedBox(height: 0)
-                        : Positioned.fill(
-                            child: Card(
-                              child: SingleChildScrollView(
+                      viewModel.isBusy || viewModel.suggestion.isEmpty
+                          ? const SizedBox(height: 0)
+                          : Positioned.fill(
+                              child: Card(
                                 child: Column(
                                   children: viewModel.suggestion
                                       .map((e) => ListTile(
                                             title: Text(e.placeName ?? '',
                                                 style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            subtitle: e.properties?.address != null ? Text(e.properties!.address!) : null,
+                                                    fontWeight: FontWeight.bold)),
+                                            subtitle:
+                                                e.properties?.address != null
+                                                    ? Text(e.properties!.address!)
+                                                    : null,
                                             leading:
                                                 const Icon(Icons.location_pin),
                                             onTap: () {
-                                              if(e.geometry?.coordinates != null) {
+                                              if (e.geometry?.coordinates !=
+                                                  null) {
                                                 viewModel.onTapSearchResult(
                                                     e.geometry!.coordinates);
                                               }
@@ -65,8 +69,8 @@ class HomeView extends StackedView<HomeViewModel> {
                                 ),
                               ),
                             ),
-                          ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

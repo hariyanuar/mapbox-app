@@ -129,7 +129,8 @@ class HomeViewModel extends BaseViewModel {
         const Duration(seconds: 1, milliseconds: 500),
         () async {
           final ApiResponse<List<MapBoxPlace>> searchPlace =
-              await _searchBoxService.getPlaces(val);
+              await _searchBoxService.getPlaces(val,
+                  proximity: Proximity.LatLong(lat: -6.383152, long: 106.820744));
 
           searchPlace.fold(
             (suggestionResponse) {
