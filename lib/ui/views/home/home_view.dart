@@ -23,11 +23,11 @@ class HomeView extends StackedView<HomeViewModel> {
                 onMapCreated: viewModel.onMapCreated,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: SingleChildScrollView(
+            Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
                       Card(
@@ -43,32 +43,30 @@ class HomeView extends StackedView<HomeViewModel> {
                       ),
                       viewModel.isBusy || viewModel.suggestion.isEmpty
                           ? const SizedBox(height: 0)
-                          : Positioned.fill(
-                              child: Card(
-                                child: Column(
-                                  children: viewModel.suggestion
-                                      .map((e) => ListTile(
-                                            title: Text(e.placeName ?? '',
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold)),
-                                            subtitle:
-                                                e.properties?.address != null
-                                                    ? Text(e.properties!.address!)
-                                                    : null,
-                                            leading:
-                                                const Icon(Icons.location_pin),
-                                            onTap: () {
-                                              if (e.geometry?.coordinates !=
-                                                  null) {
-                                                viewModel.onTapSearchResult(
-                                                    e.geometry!.coordinates);
-                                              }
-                                            },
-                                          ))
-                                      .toList(),
-                                ),
-                              ),
+                          : Card(
+                            child: Column(
+                              children: viewModel.suggestion
+                                  .map((e) => ListTile(
+                                        title: Text(e.placeName ?? '',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        subtitle:
+                                            e.properties?.address != null
+                                                ? Text(e.properties!.address!)
+                                                : null,
+                                        leading:
+                                            const Icon(Icons.location_pin),
+                                        onTap: () {
+                                          if (e.geometry?.coordinates !=
+                                              null) {
+                                            viewModel.onTapSearchResult(
+                                                e.geometry!.coordinates);
+                                          }
+                                        },
+                                      ))
+                                  .toList(),
                             ),
+                          ),
                     ],
                   ),
                 ),
