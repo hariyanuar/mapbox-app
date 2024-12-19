@@ -15,9 +15,31 @@ class HomeView extends StackedView<HomeViewModel> {
   ) {
     return Scaffold(
       body: SafeArea(
-        child: MapWidget(
-          cameraOptions: viewModel.camera,
-          onMapCreated: viewModel.onMapCreated,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: MapWidget(
+                cameraOptions: viewModel.camera,
+                onMapCreated: viewModel.onMapCreated,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0),
+                    child: TextField(
+                      decoration:
+                          const InputDecoration(suffixIcon: Icon(Icons.search)),
+                      onChanged: (val) {},
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
