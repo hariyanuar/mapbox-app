@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' as Material;
 import 'package:flutter/services.dart';
 import 'package:mapbox_app/app/app.locator.dart';
 import 'package:mapbox_app/infrastructure/apis/mapbox_directions_api.dart';
@@ -16,7 +15,6 @@ import 'package:mapbox_search/models/location.dart';
 
 class HomeViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
-  final _bottomSheetService = locator<BottomSheetService>();
   final _mapBoxDirectionsService = locator<MapBoxDirectionsAPI>();
   final _searchBoxService = locator<GeoCoding>();
   final ACCESS_TOKEN = const String.fromEnvironment("ACCESS_TOKEN");
@@ -27,6 +25,7 @@ class HomeViewModel extends BaseViewModel {
       zoom: 14,
       bearing: 0,
       pitch: 0);
+
   CameraOptions get initialCamera => _initialCamera;
 
   final List<Position> _markerPoints = [
@@ -58,8 +57,6 @@ class HomeViewModel extends BaseViewModel {
                 .map((e) => Position(e[0], e[1]))
                 .toList());
       }
-
-      debugPrint('mapBoxDirections $_mapBoxDirections');
     } on DioException catch (e) {
       _dialogService.showDialog(
           title: 'Error fetching data',
@@ -91,7 +88,6 @@ class HomeViewModel extends BaseViewModel {
 
     // POLYLINE DRAW
 
-    debugPrint('coordinates');
     _geometrySteps?.coordinates.forEach((e) => '${e.lng}, ${e.lat}');
 
     mapboxMap.style.styleSourceExists("source").then((exists) async {
@@ -138,8 +134,6 @@ class HomeViewModel extends BaseViewModel {
           searchPlace.fold(
             (suggestionResponse) {
               _suggestions = suggestionResponse;
-              debugPrint('_suggestions');
-              _suggestions.forEach((e) => debugPrint(jsonEncode(e)));
             },
             (failureResponse) {
               _dialogService.showDialog(
@@ -168,11 +162,14 @@ class HomeViewModel extends BaseViewModel {
 
     final ByteData bytes = await rootBundle.load('lib/assets/location.png');
     final Uint8List imageData = bytes.buffer.asUint8List();
-    final PointAnnotationOptions pointAnnotationOptions = PointAnnotationOptions(
-        geometry: Point(coordinates: Position(coordinate.long, coordinate.lat)), // Example coordinates
-        image: imageData,
-        iconAnchor: IconAnchor.BOTTOM,
-        iconSize: 0.25);
+    final PointAnnotationOptions pointAnnotationOptions =
+        PointAnnotationOptions(
+            geometry:
+                Point(coordinates: Position(coordinate.long, coordinate.lat)),
+            // Example coordinates
+            image: imageData,
+            iconAnchor: IconAnchor.BOTTOM,
+            iconSize: 0.25);
     // Add the annotation to the map
     _pointAnnotationManager?.create(pointAnnotationOptions);
   }
