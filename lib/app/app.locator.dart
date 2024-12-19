@@ -6,12 +6,14 @@
 
 // ignore_for_file: public_member_api_docs, implementation_imports, depend_on_referenced_packages
 
+import 'package:mapbox_search/src/geocoding_api.dart';
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart';
 import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../infrastructure/apis/mapbox_directions_api.dart';
+import '../infrastructure/apis/search_box_api.dart';
 
 final locator = StackedLocator.instance;
 
@@ -28,4 +30,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => MapBoxDirectionsAPI());
+  locator.registerSingleton<GeoCoding>(SearchBoxService.getInstance());
 }
